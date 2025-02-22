@@ -1,4 +1,7 @@
-﻿using Core.CryptoExchangeRate.Application.Shared.Contract;
+﻿using Core.CryptoExchangeRate.Application.Framework.Behavior;
+using Core.CryptoExchangeRate.Application.Shared.Contract;
+using Core.CryptoExchangeRate.Domain.Framework;
+using MediatR;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -16,6 +19,8 @@ public static class DependencyInjection
         });
 
 
+        services.AddTransient(typeof(IPipelineBehavior<,>), typeof(UnhandledExceptionBehaviour<,>));
+        services.AddTransient(typeof(IPipelineBehavior<,>), typeof(CachingBehavior<,>));
         
         return services;
     }

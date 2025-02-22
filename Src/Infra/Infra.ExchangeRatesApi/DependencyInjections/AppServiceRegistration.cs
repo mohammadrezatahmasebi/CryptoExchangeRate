@@ -1,8 +1,8 @@
 using Core.CryptoExchangeRate.Application.ExchangeRates.Contracts;
+using Core.CryptoExchangeRate.Application.Framework.Behavior;
 using Core.CryptoExchangeRate.Application.Shared;
 using Core.CryptoExchangeRate.Application.Shared.Configs;
 using Infra.ExchangeRatesApi.Base;
-using Infra.ExchangeRatesApi.Behavior;
 using Infra.ExchangeRatesApi.ExchangeRates;
 using MediatR;
 using Microsoft.Extensions.Configuration;
@@ -22,11 +22,6 @@ public static class AppServiceRegistration
         services.AddScoped(typeof(IApiService<>), typeof(ApiService<>));
         AddHttpClientConfig(services, option.ExchangeRateConfig, nameof(option.ExchangeRateConfig));
         services.AddScoped<IExchangeRateService, ExchangeRateService>();
-
-
-        services.AddTransient(typeof(IPipelineBehavior<,>), typeof(UnhandledExceptionBehaviour<,>));
-        services.AddTransient(typeof(IPipelineBehavior<,>), typeof(CachingBehavior<,>));
-
 
         return services;
     }

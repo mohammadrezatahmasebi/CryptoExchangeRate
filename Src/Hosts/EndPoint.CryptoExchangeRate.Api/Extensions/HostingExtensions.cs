@@ -1,6 +1,5 @@
 using Core.CryptoExchangeRate.Application.Shared.Dependency;
 using EndPoint.CryptoExchangeRate.Api.Extensions.Dependency;
-using EndPoint.CryptoExchangeRate.Api.GlobalExceptionHandler;
 using Infra.ExchangeRatesApi.DependencyInjections;
 
 namespace EndPoint.CryptoExchangeRate.Api.Extensions;
@@ -20,20 +19,7 @@ public static class HostingExtensions
         builder.Services.EndPointConfigureServices();
 
 
-        try
-        {
-            var a= builder.Build();
-
-
-
-            return a;
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine(e);
-            throw;
-        }
-
+        return builder.Build();
     }
 
     public static WebApplication ConfigurePipeline(this WebApplication app)
@@ -46,8 +32,6 @@ public static class HostingExtensions
         }
 
         app.UseHttpsRedirection();
-
-        app.UseMiddleware<GlobalException>();
 
         app.MapControllers();
 
