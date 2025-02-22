@@ -1,0 +1,28 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <RootNamespace>Si24.$(MSBuildProjectName.Replace(" ", "_"))</RootNamespace>
+        <AssemblyName>Si24.$(MSBuildProjectName.Replace(" ", "_"))</AssemblyName>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <Folder Include="Configs\" />
+      <Folder Include="Configs\Contexts\" />
+      <Folder Include="Repositories\" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.0" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.0" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.0" />
+        <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.1" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\Core\Core.FormBuilder.Application\Core.FormBuilder.Application.csproj" />
+    </ItemGroup>
+
+</Project>
