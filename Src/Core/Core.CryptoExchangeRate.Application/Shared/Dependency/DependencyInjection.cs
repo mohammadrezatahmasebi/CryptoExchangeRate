@@ -15,6 +15,10 @@ public static class DependencyInjection
             configure.RegisterServicesFromAssembly(application.Assembly);
         });
 
+
+        
         return services;
     }
+    
+ 
 }

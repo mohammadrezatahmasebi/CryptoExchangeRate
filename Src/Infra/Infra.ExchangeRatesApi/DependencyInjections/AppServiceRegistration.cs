@@ -1,6 +1,10 @@
+using Core.CryptoExchangeRate.Application.ExchangeRates.Contracts;
 using Core.CryptoExchangeRate.Application.Shared;
+using Core.CryptoExchangeRate.Application.Shared.Configs;
 using Infra.ExchangeRatesApi.Base;
-using Infra.ExchangeRatesApi.SalesInquiries;
+using Infra.ExchangeRatesApi.Behavior;
+using Infra.ExchangeRatesApi.ExchangeRates;
+using MediatR;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -8,20 +12,34 @@ namespace Infra.ExchangeRatesApi.DependencyInjections;
 
 public static class AppServiceRegistration
 {
-
-    
-    public static IServiceCollection AddInfrastructures(this IServiceCollection services, IConfiguration configuration)
+    public static IServiceCollection AddExchangeRateApi(this IServiceCollection services, IConfiguration configuration)
     {
-        services.Configure<MapLetterSetting>(configuration.GetSection(MapLetterSetting.Section));
+        var option = configuration.GetSection(nameof(AppConfig)).Get<AppConfig>();
 
-        services.AddStackExchangeRedisCache(options =>
-        {
-            var redisConfig = configuration.GetSection("Redis");
-            options.Configuration = redisConfig["ConnectionString"];
-        });
-        
+        if (option is null)
+            throw new ArgumentNullException(nameof(AppConfig));
+
         services.AddScoped(typeof(IApiService<>), typeof(ApiService<>));
+        AddHttpClientConfig(services, option.ExchangeRateConfig, nameof(option.ExchangeRateConfig));
+        services.AddScoped<IExchangeRateService, ExchangeRateService>();
+
+
+        services.AddTransient(typeof(IPipelineBehavior<,>), typeof(UnhandledExceptionBehaviour<,>));
+        services.AddTransient(typeof(IPipelineBehavior<,>), typeof(CachingBehavior<,>));
+
 
         return services;
+    }
+
+    private static void AddHttpClientConfig(IServiceCollection services, ApiConfig config, string configName)
+    {
+        var httpClient = services.AddHttpClient(configName, client =>
+        {
+            client.BaseAddress = new Uri(config.BaseUrl);
+            client.Timeout = TimeSpan.FromSeconds(config.Timeout);
+        });
+
+        httpClient.SetHandlerLifetime(TimeSpan.FromMinutes(10d))
+            .AddCustomPolly();
     }
 }

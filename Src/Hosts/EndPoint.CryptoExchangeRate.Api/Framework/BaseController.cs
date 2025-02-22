@@ -9,7 +9,7 @@ namespace EndPoint.CryptoExchangeRate.Api.Framework;
 public class BaseController: ControllerBase
 {
     [NonAction]
-    public virtual ObjectResult SIResult(Result result)
+    protected virtual ObjectResult EXResult(Result result)
     {
         Response.StatusCode = result.IsSuccess ? HttpStatusCode.OK.GetHashCode() : result.Error.Code.GetHashCode();
         return StatusCode(Response.StatusCode, result);

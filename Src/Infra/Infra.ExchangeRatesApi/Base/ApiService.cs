@@ -1,5 +1,4 @@
 using System.Net;
-using System.Text.Json;
 using Core.CryptoExchangeRate.Application.Shared;
 using Core.CryptoExchangeRate.Application.Shared.Models;
 using Microsoft.AspNetCore.Http;
@@ -46,7 +45,7 @@ public sealed class ApiService<T> : IApiService<T>
             responseAoi.callRequestContext
             , apiParameter.CheckErrorInSuccessStatus, apiParameter.SuccessCode);
 
-        if (finalResponse.ValidationError.HttpStatusCode == (int) HttpStatusCode.Unauthorized)
+        if (finalResponse.ValidationError.HttpStatusCode == (int)HttpStatusCode.Unauthorized)
         {
             responseAoi = await SendCallApi<TRes>(apiParameter, cancellationToken: cancellationToken);
 
@@ -123,9 +122,9 @@ public sealed class ApiService<T> : IApiService<T>
         {
             return new TRes
             {
-                ValidationError = new ValidationError(((int) HttpStatusCode.NotFound).ToString(),
+                ValidationError = new ValidationError(((int)HttpStatusCode.NotFound).ToString(),
                     MessageText.NotFountInThirdPartyApi
-                    , httpStatusCode: (int) HttpStatusCode.ExpectationFailed)
+                    , httpStatusCode: (int)HttpStatusCode.ExpectationFailed)
             };
         }
 
@@ -137,7 +136,7 @@ public sealed class ApiService<T> : IApiService<T>
             return new TRes
             {
                 ValidationError = new ValidationError(unauthorizedError.Key, unauthorizedError.Value,
-                    httpStatusCode: (int) context.StatusCode)
+                    httpStatusCode: (int)context.StatusCode)
             };
         }
 
@@ -145,15 +144,15 @@ public sealed class ApiService<T> : IApiService<T>
         {
             return new TRes
             {
-                ValidationError = new ValidationError(((int) HttpStatusCode.RequestTimeout).ToString(),
+                ValidationError = new ValidationError(((int)HttpStatusCode.RequestTimeout).ToString(),
                     MessageText.RequestTimeoutInThirdPartyApi
-                    , httpStatusCode: (int) HttpStatusCode.RequestTimeout)
+                    , httpStatusCode: (int)HttpStatusCode.RequestTimeout)
             };
         }
 
 
         var customError = apiParameter.ApiConfig.ErrorMappings.FirstOrDefault(r =>
-            r.Inbound.StatusCode == (int) context.StatusCode && (
+            r.Inbound.StatusCode == (int)context.StatusCode && (
                 string.IsNullOrEmpty(r.Inbound.ErrorCode) &&
                 (string.IsNullOrWhiteSpace(r.Inbound.ErrorMessage) ||
                  r.Inbound.ErrorMessage.Equals(errorRes.ErrorMessage?.Trim([' ', '.']))) ||
@@ -218,9 +217,7 @@ public sealed class ApiService<T> : IApiService<T>
 
         if (message == null)
         {
-           
-                message = httpResponseMessage.ToObject<TErrorMapper>().ErrorMessageGetter;
-          
+            message = httpResponseMessage.ToObject<TErrorMapper>().ErrorMessageGetter;
         }
 
         if (message != null && errorRes.Code == 0 && string.IsNullOrWhiteSpace(errorRes.ErrorMessage) &&
@@ -232,12 +229,12 @@ public sealed class ApiService<T> : IApiService<T>
         return message;
     }
 
-    private string AddQueryString(string uri, Dictionary<string, string> queries)
+    private string AddQueryString(string uri, Dictionary<string, string[]> queries)
     {
         if (!queries.Any())
             return uri;
         var queryString = string.Join("&",
-            queries.Select(p => $"{p.Key}={p.Value}"));
+            queries.Select(p => $"{p.Key}={string.Join(",", p.Value)}"));
         var url = $"{uri}?{queryString}";
 
         return url;
