@@ -1,10 +1,8 @@
 using Core.CryptoExchangeRate.Application.ExchangeRates.Contracts;
-using Core.CryptoExchangeRate.Application.Framework.Behavior;
 using Core.CryptoExchangeRate.Application.Shared;
 using Core.CryptoExchangeRate.Application.Shared.Configs;
 using Infra.ExchangeRatesApi.Base;
 using Infra.ExchangeRatesApi.ExchangeRates;
-using MediatR;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 

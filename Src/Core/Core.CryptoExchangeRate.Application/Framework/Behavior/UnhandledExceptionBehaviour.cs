@@ -11,7 +11,7 @@ namespace Core.CryptoExchangeRate.Application.Framework.Behavior
         where TResponse : Result
     {
         public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next,
-            CancellationToken cancellationToken) 
+            CancellationToken cancellationToken)
         {
             try
             {
@@ -21,8 +21,13 @@ namespace Core.CryptoExchangeRate.Application.Framework.Behavior
             {
                 var errorDetail = HandleException(error);
                 Log.Error(error, "Error in request {RequestType}: {Error}", typeof(TRequest).Name, errorDetail);
-                
-                return Result.Failure(new Error(HttpStatusCode.RequestTimeout, errorDetail));
+
+                throw new ErrorExceptions()
+                {
+                    Message = error.Message,
+                    ErrorCode = 500,
+                    StatusCode = HttpStatusCode.InternalServerError
+                };
             }
         }
 

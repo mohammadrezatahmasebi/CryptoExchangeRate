@@ -16,6 +16,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core.CryptoExchangeRate.Dom
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infra.ExchangeRatesApi", "Src\Infra\Infra.ExchangeRatesApi\Infra.ExchangeRatesApi.csproj", "{A1980AFA-E4D1-4FED-9499-8ED6DFB9B8D4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infra.CryptoExchangeRate.Db", "Src\Infra\Infra.CryptoExchangeRate.Db\Infra.CryptoExchangeRate.Db.csproj", "{4CF15F44-75B2-41CF-9B03-AA6F8808D105}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -38,6 +40,10 @@ Global
 		{A1980AFA-E4D1-4FED-9499-8ED6DFB9B8D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A1980AFA-E4D1-4FED-9499-8ED6DFB9B8D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A1980AFA-E4D1-4FED-9499-8ED6DFB9B8D4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4CF15F44-75B2-41CF-9B03-AA6F8808D105}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4CF15F44-75B2-41CF-9B03-AA6F8808D105}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4CF15F44-75B2-41CF-9B03-AA6F8808D105}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4CF15F44-75B2-41CF-9B03-AA6F8808D105}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{CDD7AB80-FE08-4B6B-806E-16B8F9705471} = {73BF7542-894E-45A1-8F10-E4DCF314400D}
@@ -47,5 +53,6 @@ Global
 		{C2115E52-4104-4B80-893F-AAEF530DAF4B} = {D170DFDF-FB8B-4ACD-9C2E-75D418F508DF}
 		{C1F47958-AE61-47F4-8D1D-F962BD3A4E6F} = {D170DFDF-FB8B-4ACD-9C2E-75D418F508DF}
 		{A1980AFA-E4D1-4FED-9499-8ED6DFB9B8D4} = {0DB94FE9-F578-4B45-A79E-BED3A3BF4234}
+		{4CF15F44-75B2-41CF-9B03-AA6F8808D105} = {0DB94FE9-F578-4B45-A79E-BED3A3BF4234}
 	EndGlobalSection
 EndGlobal

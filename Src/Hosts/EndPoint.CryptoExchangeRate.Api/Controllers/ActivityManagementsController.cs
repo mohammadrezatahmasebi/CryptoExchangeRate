@@ -1,12 +1,14 @@
 ﻿using Core.CryptoExchangeRate.Application.ExchangeRates.Queries.Get;
 using EndPoint.CryptoExchangeRate.Api.Framework;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EndPoint.CryptoExchangeRate.Api.Controllers
 {
     [ApiController]
     [Route("[controller]")]
+    [Authorize]
     public class ExchangeRatesController : BaseController
     {
         private readonly IMediator _mediator;

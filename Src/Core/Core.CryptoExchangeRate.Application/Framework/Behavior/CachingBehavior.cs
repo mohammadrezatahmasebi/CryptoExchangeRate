@@ -1,13 +1,12 @@
 using Core.CryptoExchangeRate.Application.Framework.Queries;
-using Core.CryptoExchangeRate.Application.Shared;
 using Core.CryptoExchangeRate.Domain.Framework;
 using MediatR;
 using Microsoft.Extensions.Caching.Memory;
 
 namespace Core.CryptoExchangeRate.Application.Framework.Behavior;
 
-public sealed class CachingBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, Result<TResponse>>
-    where TRequest : IQuery<TResponse> where TResponse : class
+public sealed class CachingBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
+    where TRequest : IQuery<TResponse> where TResponse : Result
 {
     private readonly IMemoryCache _memoryCache;
 
@@ -16,7 +15,7 @@ public sealed class CachingBehavior<TRequest, TResponse> : IPipelineBehavior<TRe
         _memoryCache = memoryCache;
     }
 
-    public async Task<Result<TResponse>> Handle(TRequest request, RequestHandlerDelegate<Result<TResponse>> next,
+    public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next,
         CancellationToken cancellationToken)
     {
         if (request is ICacheableRequest<TResponse> cacheable)
@@ -25,7 +24,7 @@ public sealed class CachingBehavior<TRequest, TResponse> : IPipelineBehavior<TRe
             ArgumentException.ThrowIfNullOrEmpty(cacheKey);
 
 
-            var response = _memoryCache.Get<Result<TResponse>>(cacheKey);
+            var response = _memoryCache.Get<TResponse>(cacheKey);
 
             if (response is not null) return response;
 
@@ -33,8 +32,8 @@ public sealed class CachingBehavior<TRequest, TResponse> : IPipelineBehavior<TRe
 
             var conditionFroSetCacheMemory = cacheable.ConditionFroSetCache;
             if (response is not null && !response.IsSuccess &&
-                (conditionFroSetCacheMemory is null || conditionFroSetCacheMemory(response.Value)))
-                _memoryCache.Set(cacheKey, response, cacheable.ConditionExpiration(response.Value));
+                (conditionFroSetCacheMemory is null || conditionFroSetCacheMemory(response)))
+                _memoryCache.Set(cacheKey, response, cacheable.ConditionExpiration(response));
 
             return response;
         }

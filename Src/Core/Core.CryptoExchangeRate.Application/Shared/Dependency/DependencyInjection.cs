@@ -1,7 +1,8 @@
 ﻿using Core.CryptoExchangeRate.Application.Framework.Behavior;
 using Core.CryptoExchangeRate.Application.Shared.Contract;
-using Core.CryptoExchangeRate.Domain.Framework;
+using Core.CryptoExchangeRate.Domain.Users;
 using MediatR;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -21,6 +22,8 @@ public static class DependencyInjection
 
         services.AddTransient(typeof(IPipelineBehavior<,>), typeof(UnhandledExceptionBehaviour<,>));
         services.AddTransient(typeof(IPipelineBehavior<,>), typeof(CachingBehavior<,>));
+        services.AddSingleton<IPasswordHasher<User>, PasswordHasher<User>>();
+
         
         return services;
     }
