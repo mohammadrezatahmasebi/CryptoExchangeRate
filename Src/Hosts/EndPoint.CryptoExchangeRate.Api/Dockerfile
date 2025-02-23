@@ -11,6 +11,7 @@ COPY ["Src/Hosts/EndPoint.CryptoExchangeRate.Api/EndPoint.CryptoExchangeRate.Api
 COPY ["Src/Core/Core.CryptoExchangeRate.Application/Core.CryptoExchangeRate.Application.csproj", "Src/Core/Core.CryptoExchangeRate.Application/"]
 COPY ["Src/Core/Core.CryptoExchangeRate.Domain/Core.CryptoExchangeRate.Domain.csproj", "Src/Core/Core.CryptoExchangeRate.Domain/"]
 COPY ["Src/Infra/Infra.ExchangeRatesApi/Infra.ExchangeRatesApi.csproj", "Src/Infra/Infra.ExchangeRatesApi/"]
+COPY ["Src/Infra/Infra.CryptoExchangeRate.Db/Infra.CryptoExchangeRate.Db.csproj", "Src/Infra/Infra.CryptoExchangeRate.Db/"]
 RUN dotnet restore "Src/Hosts/EndPoint.CryptoExchangeRate.Api/EndPoint.CryptoExchangeRate.Api.csproj"
 COPY . .
 WORKDIR "/src/Src/Hosts/EndPoint.CryptoExchangeRate.Api"
